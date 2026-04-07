@@ -13,11 +13,12 @@ function Register() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setError('');
     try {
       await register(form.name, form.email, form.password);
-      navigate('/login');
+      navigate('/login', { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      setError(err.message || 'Registration failed');
     }
   };
 

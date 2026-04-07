@@ -1,8 +1,14 @@
 // src/axios.js
 import axios from 'axios';
 
+const rawBaseUrl = process.env.REACT_APP_API || 'http://localhost:5000';
+const normalizedBaseUrl = rawBaseUrl.replace(/\/+$/, '');
+const apiBaseUrl = normalizedBaseUrl.endsWith('/api')
+  ? normalizedBaseUrl
+  : `${normalizedBaseUrl}/api`;
+
 const instance = axios.create({
-  baseURL: '/api', // Proxy from frontend NGINX to backend K8s service
+  baseURL: apiBaseUrl,
 });
 
 instance.interceptors.request.use((config) => {
