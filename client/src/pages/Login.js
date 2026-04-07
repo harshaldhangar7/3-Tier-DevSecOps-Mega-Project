@@ -13,11 +13,12 @@ function Login() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setError('');
     try {
       await login(form.email, form.password);
-      navigate('/dashboard');
+      navigate('/dashboard', { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.message || 'Login failed');
     }
   };
 
@@ -48,7 +49,7 @@ function Login() {
         </form>
         <div className="login-tip">
           Tip: use a strong password and never share your credentials. For access
-          requests contact <a href="mailto:support@devopsshack.com">support</a>.
+          requests contact <a href="mailto:admin@visiontechie.com">support</a>.
         </div>
         <p>
           Don't have an account? <Link to="/register">Register</Link>

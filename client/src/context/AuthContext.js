@@ -1,5 +1,5 @@
 // src/context/AuthContext.js
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState } from 'react';
 import axios from '../axios';
 
 export const AuthContext = createContext();
@@ -21,10 +21,11 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data.user);
       return { success: true };
     } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || 'Login failed. Please try again.',
-      };
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        'Login failed. Please try again.';
+      throw new Error(message);
     }
   };
 
@@ -33,10 +34,11 @@ export const AuthProvider = ({ children }) => {
       await axios.post('/auth/register', { name, email, password });
       return { success: true };
     } catch (err) {
-      return {
-        success: false,
-        message: err.response?.data?.message || 'Registration failed.',
-      };
+      const message =
+        err.response?.data?.message ||
+        err.response?.data?.error ||
+        'Registration failed.';
+      throw new Error(message);
     }
   };
 
